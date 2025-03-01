@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://bpyrrprbd5pn6"]
+
+[ext_resource type="Script" uid="uid://dpgq8bae5g3op" path="res://Scripts/HexGrid.cs" id="1_7sa6m"]
+[ext_resource type="PackedScene" uid="uid://xxjtvai4djf3" path="res://Scenes/hex_cell.tscn" id="2_0bw4n"]
+[ext_resource type="Script" uid="uid://b7sh6otay5vfp" path="res://Scripts/HexMesh.cs" id="3_dckcd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7sa6m"]
+vertex_color_use_as_albedo = true
+
+[node name="HexGrid" type="Node3D" node_paths=PackedStringArray("MeshInstance")]
+script = ExtResource("1_7sa6m")
+HexCellScene = ExtResource("2_0bw4n")
+MeshInstance = NodePath("HexMesh")
+TouchedColor = Color(0.194706, 0.593374, 1, 1)
+metadata/_custom_type_script = "uid://dpgq8bae5g3op"
+
+[node name="HexMesh" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_7sa6m")
+script = ExtResource("3_dckcd")
+metadata/_custom_type_script = "uid://b7sh6otay5vfp"

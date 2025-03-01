@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://1ffm56ltq1dt"]
+
+[ext_resource type="PackedScene" uid="uid://bpyrrprbd5pn6" path="res://Scenes/hex_grid.tscn" id="1_a02cp"]
+[ext_resource type="Script" uid="uid://bpso8tr1ap8bm" path="res://Scripts/HexMapEditor.cs" id="1_go701"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_a02cp"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_go701"]
+sky_material = SubResource("ProceduralSkyMaterial_a02cp")
+
+[sub_resource type="Environment" id="Environment_5a7ea"]
+background_mode = 2
+sky = SubResource("Sky_go701")
+tonemap_mode = 2
+ssao_enabled = true
+sdfgi_enabled = true
+glow_enabled = true
+
+[node name="World" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5a7ea")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="HexMapEditor" type="Node3D" parent="." node_paths=PackedStringArray("HexGrid", "CheckBoxContainer")]
+script = ExtResource("1_go701")
+Colors = Array[Color]([Color(0, 0.592157, 0, 1), Color(0.428948, 0.591796, 0.734375, 1)])
+HexGrid = NodePath("HexGrid")
+CheckBoxContainer = NodePath("Control/VBoxContainer")
+metadata/_custom_type_script = "uid://bpso8tr1ap8bm"
+
+[node name="HexGrid" parent="HexMapEditor" instance=ExtResource("1_a02cp")]
+
+[node name="Control" type="Control" parent="HexMapEditor"]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HexMapEditor/Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -44.0
+offset_top = -80.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 51.68, 76.409, 59.143)
