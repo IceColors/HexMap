@@ -71,12 +71,6 @@ public partial class HexGrid : Node3D
         AddChild(cell);
     }
 
-    public void ColorCell(HexCell cell, Color color)
-    {
-        cell.Color = color;
-        MeshInstance.Triangulate(Cells);
-    }
-
     public HexCell GetCellFromRay(PhysicsRayQueryParameters3D rayQuery)
     {
         var spaceState = GetWorld3D().DirectSpaceState;
@@ -129,5 +123,10 @@ public partial class HexGrid : Node3D
         }
 
         return null;
+    }
+
+    public void Refresh()
+    {
+        MeshInstance.Triangulate(Cells);
     }
 }

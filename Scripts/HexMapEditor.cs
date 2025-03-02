@@ -16,7 +16,14 @@ public partial class HexMapEditor : Node3D
     [Export]
     public Container CheckBoxContainer { get; set; }
 
+    [Export]
+    public Slider ElevationSlider { get; set; }
+
+    [Export]
+    public Label SliderTextLabel { get; set; }
+
     private Color CurrentColor { get; set; }
+    public int CurrentElevation { get; set; }
 
     public override void _Ready()
     {
@@ -38,6 +45,8 @@ public partial class HexMapEditor : Node3D
             };
             CheckBoxContainer.AddChild(checkbox);
         }
+
+        ElevationSlider.ValueChanged += SetElevation;
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -52,7 +61,7 @@ public partial class HexMapEditor : Node3D
             var cell = GetCellFromScreen(mouseEvent.Position);
             if (cell is not null)
             {
-                HexGrid.ColorCell(cell, CurrentColor);
+                EditCell(cell);
             }
         }
         else if (@event is InputEventKey key && key.IsPressed() && key.Keycode == Key.D)
@@ -74,5 +83,18 @@ public partial class HexMapEditor : Node3D
 
         var resultCell = HexGrid.GetCellFromRay(rayQuery);
         return resultCell;
+    }
+
+    public void SetElevation(double elevation)
+    {
+        CurrentElevation = Mathf.RoundToInt(elevation);
+        SliderTextLabel.Text = elevation.ToString();
+    }
+
+    private void EditCell(HexCell cell)
+    {
+        cell.Color = CurrentColor;
+        cell.Elevation = CurrentElevation;
+        HexGrid.Refresh();
     }
 }

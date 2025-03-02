@@ -27,11 +27,13 @@ environment = SubResource("Environment_5a7ea")
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
 shadow_enabled = true
 
-[node name="HexMapEditor" type="Node3D" parent="." node_paths=PackedStringArray("HexGrid", "CheckBoxContainer")]
+[node name="HexMapEditor" type="Node3D" parent="." node_paths=PackedStringArray("HexGrid", "CheckBoxContainer", "ElevationSlider", "SliderTextLabel")]
 script = ExtResource("1_go701")
 Colors = Array[Color]([Color(0, 1, 0, 1), Color(0, 0, 1, 1), Color(1, 0, 0.769833, 1), Color(1, 1, 0, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 1)])
 HexGrid = NodePath("HexGrid")
 CheckBoxContainer = NodePath("Control/VBoxContainer")
+ElevationSlider = NodePath("Control/VBoxContainer/HSlider")
+SliderTextLabel = NodePath("Control/VBoxContainer/HSlider/Label")
 metadata/_custom_type_script = "uid://bpso8tr1ap8bm"
 
 [node name="HexGrid" parent="HexMapEditor" instance=ExtResource("1_a02cp")]
@@ -59,6 +61,29 @@ offset_left = -44.0
 offset_top = -80.0
 grow_horizontal = 0
 grow_vertical = 0
+
+[node name="HSlider" type="VSlider" parent="HexMapEditor/Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+min_value = -5.0
+max_value = 5.0
+rounded = true
+
+[node name="Label" type="Label" parent="HexMapEditor/Control/VBoxContainer/HSlider"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 9.0
+offset_top = -11.0
+offset_right = 34.0
+offset_bottom = 11.3333
+grow_horizontal = 0
+grow_vertical = 2
+text = "0.0"
+horizontal_alignment = 2
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 51.68, 76.409, 59.143)

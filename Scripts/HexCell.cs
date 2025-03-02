@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 namespace HexMap.Scripts;
 
@@ -10,6 +11,16 @@ public partial class HexCell : Node3D
 
     public HexCoordinates Coordinates { get; set; }
     public Color Color { get; internal set; } = Colors.LightGoldenrod;
+
+    private int elevation;
+    public int Elevation
+    {
+        get => elevation; set
+        {
+            elevation = value;
+            Position = Position with { Y = value * HexMetrics.ElevationStep };
+        }
+    }
 
     private HexCell[] neighbors = new HexCell[6];
 
@@ -30,6 +41,15 @@ public partial class HexCell : Node3D
         CoordinatesLabel.Text = Coordinates.ToStringOnSeparateLines();
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta) { }
+    public HexEdgeType GetEdgeType(HexDirection direction)
+    {
+        return HexMetrics.GetEdgeType(
+            elevation,
+            GetNeighbor(direction).elevation);
+    }
+
+    internal HexEdgeType GetEdgeType(HexCell otherCell)
+    {
+        return HexMetrics.GetEdgeType(elevation, otherCell.elevation);
+    }
 }
