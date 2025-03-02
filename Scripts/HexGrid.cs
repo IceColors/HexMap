@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
 using Godot;
+
+namespace HexMap.Scripts;
 
 [GlobalClass]
 public partial class HexGrid : Node3D
@@ -18,12 +18,11 @@ public partial class HexGrid : Node3D
     public int Width { get; set; } = 6;
     public int Height { get; set; } = 6;
 
-    public List<HexCell> Cells { get; set; }
+    public Collection<HexCell> Cells { get; } = [];
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        Cells = [];
         for (int z = 0, i = 0; z < Height; z++)
         {
             for (var x = 0; x < Width; x++)
@@ -31,18 +30,44 @@ public partial class HexGrid : Node3D
                 CreateCell(x, z, i++);
             }
         }
+
         MeshInstance.Triangulate(Cells);
     }
 
     void CreateCell(int x, int z, int i)
     {
-        var posX = (x + (z * 0.5f) - (z / 2)) * (HexMetrics.INNER_RADIUS * 2f);
-        var posZ = z * (HexMetrics.OUTER_RADIUS * 1.5f);
+        var posX = (x + (z * 0.5f) - (z / 2)) * (HexMetrics.InnerRadius * 2f);
+        var posZ = z * (HexMetrics.OuterRadius * 1.5f);
         var position = new Vector3(posX, 0, posZ);
-        HexCell cell = HexCellScene.Instantiate<HexCell>();
+        var cell = HexCellScene.Instantiate<HexCell>();
         Cells.Add(cell);
         cell.Coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
         cell.Position = position;
+        if (x > 0)
+        {
+            cell.SetNeighbor(HexDirection.W, Cells[i - 1]);
+        }
+
+        if (z > 0)
+        {
+            if (int.IsEvenInteger(z))
+            {
+                cell.SetNeighbor(HexDirection.SE, Cells[i - Width]);
+                if (x > 0)
+                {
+                    cell.SetNeighbor(HexDirection.SW, Cells[i - Width - 1]);
+                }
+            }
+            else
+            {
+                cell.SetNeighbor(HexDirection.SW, Cells[i - Width]);
+                if (x < Width - 1)
+                {
+                    cell.SetNeighbor(HexDirection.SE, Cells[i - Width + 1]);
+                }
+            }
+        }
+
         AddChild(cell);
     }
 
@@ -73,6 +98,7 @@ public partial class HexGrid : Node3D
             var cell = GetCell((Vector3)result["position"]);
             return cell;
         }
+
         return null;
     }
 
@@ -101,6 +127,7 @@ public partial class HexGrid : Node3D
         {
             return Cells[ind];
         }
+
         return null;
     }
 }

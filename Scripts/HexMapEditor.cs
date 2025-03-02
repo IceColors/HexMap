@@ -1,7 +1,8 @@
-using System;
 using System.Linq;
 using Godot;
 using Godot.Collections;
+
+namespace HexMap.Scripts;
 
 [GlobalClass]
 public partial class HexMapEditor : Node3D
@@ -53,6 +54,10 @@ public partial class HexMapEditor : Node3D
             {
                 HexGrid.ColorCell(cell, CurrentColor);
             }
+        }
+        else if (@event is InputEventKey key && key.IsPressed() && key.Keycode == Key.D)
+        {
+            GetViewport().DebugDraw ^= Viewport.DebugDrawEnum.Wireframe;
         }
     }
 

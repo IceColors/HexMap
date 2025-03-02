@@ -29,7 +29,7 @@ shadow_enabled = true
 
 [node name="HexMapEditor" type="Node3D" parent="." node_paths=PackedStringArray("HexGrid", "CheckBoxContainer")]
 script = ExtResource("1_go701")
-Colors = Array[Color]([Color(0, 0.592157, 0, 1), Color(0.428948, 0.591796, 0.734375, 1)])
+Colors = Array[Color]([Color(0, 1, 0, 1), Color(0, 0, 1, 1), Color(1, 0, 0.769833, 1), Color(1, 1, 0, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 1)])
 HexGrid = NodePath("HexGrid")
 CheckBoxContainer = NodePath("Control/VBoxContainer")
 metadata/_custom_type_script = "uid://bpso8tr1ap8bm"

@@ -1,7 +1,10 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Godot;
 
-public readonly struct HexCoordinates
+namespace HexMap.Scripts;
+
+public readonly struct HexCoordinates : IEquatable<HexCoordinates>
 {
     private HexCoordinates(int x, int z)
     {
@@ -20,10 +23,10 @@ public readonly struct HexCoordinates
 
     internal static HexCoordinates FromPosition(Vector3 position)
     {
-        var x = position.X / (HexMetrics.INNER_RADIUS * 2f);
+        var x = position.X / (HexMetrics.InnerRadius * 2f);
         var y = -x;
 
-        var offset = position.Z / (HexMetrics.OUTER_RADIUS * 3f);
+        var offset = position.Z / (HexMetrics.OuterRadius * 3f);
         x -= offset;
         y -= offset;
 
@@ -59,4 +62,25 @@ public readonly struct HexCoordinates
     {
         return $"{X}\n{Y}\n{Z}";
     }
+
+    #region Equality
+    public override bool Equals([NotNullWhen(true)] object obj)
+        => obj is HexCoordinates other && Equals(other);
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(X, Z);
+    }
+
+    public bool Equals(HexCoordinates other) => X == other.X && Z == other.Z;
+    public static bool operator ==(HexCoordinates left, HexCoordinates right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(HexCoordinates left, HexCoordinates right)
+    {
+        return !(left == right);
+    }
+    #endregion
 }
