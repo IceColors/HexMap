@@ -3,12 +3,13 @@
 [ext_resource type="Script" uid="uid://0hrh2cvji51y" path="res://Scripts/HexCell.cs" id="1_2mer0"]
 
 [node name="HexCell" type="Node3D" node_paths=PackedStringArray("CoordinatesLabel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.393286, 0)
 script = ExtResource("1_2mer0")
 CoordinatesLabel = NodePath("CoordinatesLabel")
 metadata/_custom_type_script = "uid://0hrh2cvji51y"
 
 [node name="CoordinatesLabel" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.00292188, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.0378468, 0)
 pixel_size = 0.01
 texture_filter = 5
 modulate = Color(0, 0, 0, 1)

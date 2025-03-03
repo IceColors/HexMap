@@ -12,9 +12,6 @@ public partial class HexGrid : Node3D
     [Export]
     public HexMesh MeshInstance { get; set; }
 
-    [Export]
-    public Color TouchedColor { get; set; } = Colors.AliceBlue;
-
     public int Width { get; set; } = 6;
     public int Height { get; set; } = 6;
 
@@ -68,6 +65,7 @@ public partial class HexGrid : Node3D
             }
         }
 
+        cell.Elevation = 0;
         AddChild(cell);
     }
 

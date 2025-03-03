@@ -19,6 +19,12 @@ public partial class HexCell : Node3D
         {
             elevation = value;
             Position = Position with { Y = value * HexMetrics.ElevationStep };
+            Position = Position with
+            {
+                Y = Position.Y
+                    + (HexMetrics.SampleNoise(Position).Y
+                    * HexMetrics.ElevationPerturbStrength)
+            };
         }
     }
 

@@ -11,7 +11,6 @@ vertex_color_use_as_albedo = true
 script = ExtResource("1_7sa6m")
 HexCellScene = ExtResource("2_0bw4n")
 MeshInstance = NodePath("HexMesh")
-TouchedColor = Color(0.194706, 0.593374, 1, 1)
 metadata/_custom_type_script = "uid://dpgq8bae5g3op"
 
 [node name="HexMesh" type="MeshInstance3D" parent="."]

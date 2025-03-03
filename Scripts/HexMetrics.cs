@@ -15,13 +15,54 @@ public static class HexMetrics
 {
     public const float OuterRadius = 10;
     public const float InnerRadius = OuterRadius * 0.866025404f;
-    public const float SolidFactor = 0.75f;
+    public const float SolidFactor = 0.8f;
     public const float BlendFactor = 1f - SolidFactor;
-    public const float ElevationStep = 5f;
+    public const float ElevationStep = 3f;
     public const int TerracesPerSlope = 2;
     public const int TerraceSteps = (TerracesPerSlope * 2) + 1;
     public const float HorizontalTerraceStepsSize = 1f / TerraceSteps;
     public const float VerticalTerraceStepsSize = 1f / (TerracesPerSlope + 1);
+    public const float NoiseScale = 10f;
+    public const float CellPerturbStrength = 0.8f;
+    public const float ElevationPerturbStrength = 1.5f;
+
+    private static readonly FastNoiseLite[] noiseGenerators = [
+        new FastNoiseLite(),
+        new FastNoiseLite(),
+        new FastNoiseLite(),
+        new FastNoiseLite(),
+    ];
+
+    public static void InitializeNoiseGenerators()
+    {
+        var i = 0;
+        foreach (var noiseGenerator in noiseGenerators)
+        {
+            noiseGenerator.NoiseType = FastNoiseLite.NoiseTypeEnum.Perlin;
+            noiseGenerator.Seed = i++;
+            noiseGenerator.Frequency = 0.025f;
+            noiseGenerator.FractalType = FastNoiseLite.FractalTypeEnum.Fbm;
+            noiseGenerator.FractalOctaves = 2;
+            noiseGenerator.FractalLacunarity = 2;
+            noiseGenerator.FractalGain = 0.5f;
+            noiseGenerator.FractalWeightedStrength = 0.8f;
+        }
+    }
+
+    public static Vector4 SampleNoise(Vector3 position)
+    {
+        var sample = new Vector4();
+        for (var i = 0; i < noiseGenerators.Length; i++)
+        {
+            sample[i] = noiseGenerators[i].GetNoise2D(
+                position.X * NoiseScale, position.Z * NoiseScale);
+        }
+        if (!sample.IsEqualApprox(Vector4.Zero))
+        {
+            
+        }
+        return sample;
+    }
 
     private static Collection<Vector3> Corners { get; } =
         [
